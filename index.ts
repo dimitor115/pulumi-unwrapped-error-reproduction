@@ -1,9 +1,13 @@
 import * as pulumi from "@pulumi/pulumi";
-import * as aws from "@pulumi/aws";
-import * as awsx from "@pulumi/awsx";
+import {Unwrap} from '@pulumi/pulumi'
 
-// Create an AWS resource (S3 Bucket)
-const bucket = new aws.s3.Bucket("my-bucket");
 
-// Export the name of the bucket
-export const bucketName = bucket.id;
+type Artefact =  {
+    name: string
+    lastModified: Date
+}
+
+function test(artefact: Artefact) {}
+
+const artefact: Artefact = { name: 'test', lastModified: new Date() }
+pulumi.output(artefact).apply((a: Unwrap<Artefact>) => test(a))
